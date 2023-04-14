@@ -66,6 +66,36 @@ document.addEventListener("DOMContentLoaded", () => {
       cuadricula.appendChild(carta);
     }
   }
+  function verificarPareja() {
+    var cards = document.querySelectorAll("img");
+    const opcionUnoId = cartasEscogidasId[0];
+    const opcionDosId = cartasEscogidasId[1];
+
+    if (opcionUnoId === opcionDosId) {
+      cards[opcionUnoId].setAttribute("src", "images/reverso.png");
+      cards[opcionDosId].setAttribute("src", "images/reverso.png");
+      alert("DISTE A LA MISMA IMAGEN");
+    } else if (cartasEscogidas[0] === cartasEscogidas[1]) {
+      alert("CORRECTO");
+      cards[opcionUnoId].setAttribute("src", "i,ages/blank.png");
+      cards[opcionDosId].setAttribute("src", "i,ages/blank.png");
+      cards[opcionUnoId].removeEventListener("click", voltearCarta);
+      cards[opcionDosId].removeEventListener("click", voltearCarta);
+      cartasGanadas.push(cartasEscogidas);
+    } else {
+      cards[opcionUnoId].setAttribute("src", "images/reverso.png");
+      cards[opcionDosId].setAttribute("src", "images/reverso.png");
+      alert("INTENTA DE NUEVO");
+    }
+    cartasEscogidas = [];
+    cartasEscogidasId = [];
+
+    resultado.textContent = cartasGanadas.length;
+
+    if (cartasGanadas.length == cardAdj.length / 2) {
+      resultado.textContent = "FELICIDADES, ENCONTRASTE TODAS LAS PAREJAS";
+    }
+  }
 
   function voltearCarta() {
     var cardId = this.getAttribute("data-id");
@@ -73,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cartasEscogidasId.push(cardId);
     this.setAttribute("src", cardAdj[cardId].img);
     if (cartasEscogidas.length === 2) {
-      setTimeout(verificarPareja, 1500);
+      setTimeout(verificarPareja, 1000);
     }
   }
   crearTablero();
